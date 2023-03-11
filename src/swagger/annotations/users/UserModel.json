@@ -5,7 +5,7 @@
       "format": "enum",
       "enum": [
         "ADMIN",
-        "USER"
+        "MANAGER"
       ]
     },
     "UserModel": {
