@@ -1,16 +1,17 @@
 import express, { Express } from 'express';
 import { Server } from 'http';
 import { inject, injectable } from 'inversify';
-import { ExeptionFilter } from './errors/exeption.filter';
 import { ILogger } from './logger/logger.interface';
 import { TYPES } from './types';
 import { json } from 'body-parser';
 import 'reflect-metadata';
+import swaggerUi from 'swagger-ui-express';
 import { IConfigService } from './config/config.service.interface';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { UserController } from './users/users.controller';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/auth.middleware';
+import { SwaggerController } from './swagger/swagger.controller';
 
 @injectable()
 export class App {
@@ -21,6 +22,7 @@ export class App {
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: UserController,
+		@inject(TYPES.SwaggerController) private swaggerController: SwaggerController,
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
@@ -37,6 +39,7 @@ export class App {
 
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router);
+		this.app.use('/api-docs', swaggerUi.serve, this.swaggerController.router);
 	}
 
 	useExeptionFilters(): void {

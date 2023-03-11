@@ -30,7 +30,7 @@ export class UserService implements IUserService {
 		if (!existedUser) {
 			return false;
 		}
-		const newUser = new User(existedUser.email, existedUser.name, existedUser.password);
+		const newUser = new User(existedUser.email, existedUser.name || '', existedUser.password);
 		return newUser.comparePassword(password);
 	}
 
