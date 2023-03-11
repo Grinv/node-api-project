@@ -43,6 +43,9 @@ describe('User Service', () => {
 				email: user.email,
 				password: user.password,
 				id: 1,
+				role: 'USER',
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			}),
 		);
 		createdUser = await usersService.createUser({
