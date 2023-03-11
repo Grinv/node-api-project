@@ -5,18 +5,19 @@
 	"main": "index.js",
 	"type": "commonjs",
 	"scripts": {
+		"ci": "docker compose up -d && npm i && npm run prisma:init && npm run build",
 		"start": "node ./dist/main.js",
 		"dev": "nodemon",
 		"dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:9222 -r ts-node/register src/main.ts",
 		"lint": "eslint ./src/**",
 		"test": "jest",
 		"test:e2e": "jest --config jest.e2e.config.ts --coverage",
+		"prisma:init": "npm run prisma:generate && npm run prisma:migrate",
 		"prisma:generate": "prisma generate",
 		"prisma:studio": "prisma studio",
 		"prisma:migrate": "prisma migrate dev",
 		"lint:fix": "eslint ./src/** --fix",
-		"build": "tsc",
-		"swagger-autogen": "node ./swagger/swagger.js"
+		"build": "tsc"
 	},
 	"author": "Konstantin Ostrovskii",
 	"license": "ISC",

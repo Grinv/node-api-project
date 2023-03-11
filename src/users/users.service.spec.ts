@@ -43,7 +43,7 @@ describe('User Service', () => {
 				email: user.email,
 				password: user.password,
 				id: 1,
-				role: 'USER',
+				role: 'MANAGER',
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			}),
