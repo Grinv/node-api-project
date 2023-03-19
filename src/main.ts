@@ -11,11 +11,11 @@ import { SwaggerController } from './swagger/swagger.controller';
 import { ISwaggerController } from './swagger/swagger.controller.interface';
 import { TYPES } from './types';
 import { UserController } from './users/users.controller';
-import { IUserController } from './users/users.controller.interface';
+import { IUserController } from './users/types/users.controller.interface';
 import { UsersRepository } from './users/users.repository';
-import { IUsersRepository } from './users/users.repository.interface';
+import { IUsersRepository } from './users/types/users.repository.interface';
 import { UserService } from './users/users.service';
-import { IUserService } from './users/users.service.interface';
+import { IUserService } from './users/types/users.service.interface';
 
 export interface IBootstrapReturn {
 	appContainer: Container;

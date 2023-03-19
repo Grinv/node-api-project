@@ -5,13 +5,13 @@ import { HTTPError } from '../errors/http-error.class';
 import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../types';
 import 'reflect-metadata';
-import { IUserController } from './users.controller.interface';
+import { IUserController } from './types/users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { ValidateMiddleware } from '../common/validate.middleware';
 import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../config/config.service.interface';
-import { IUserService } from './users.service.interface';
+import { IUserService } from './types/users.service.interface';
 import { AuthGuard } from '../common/auth.guard';
 import { Role, UserModel } from '@prisma/client';
 

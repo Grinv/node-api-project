@@ -4,9 +4,21 @@ import { Container } from 'inversify';
 import { IConfigService } from '../config/config.service.interface';
 import { TYPES } from '../types';
 import { User } from './user.entity';
-import { IUsersRepository } from './users.repository.interface';
+import { IUsersRepository } from './types/users.repository.interface';
 import { UserService } from './users.service';
-import { IUserService } from './users.service.interface';
+import { IUserService } from './types/users.service.interface';
+
+const USER_SUCCESS = {
+	email: 'a@a.ru',
+	name: 'Антон',
+	password: '1',
+};
+
+const USER_ERROR = {
+	email: 'aa@a.ru',
+	name: 'Антон1',
+	password: '2',
+};
 
 const ConfigServiceMock: IConfigService = {
 	get: jest.fn(),
@@ -48,11 +60,7 @@ describe('User Service', () => {
 				updatedAt: new Date(),
 			}),
 		);
-		createdUser = await usersService.createUser({
-			email: 'a@a.ru',
-			name: 'Антон',
-			password: '1',
-		});
+		createdUser = await usersService.createUser(USER_SUCCESS);
 		expect(createdUser?.id).toEqual(1);
 		expect(createdUser?.password).not.toEqual('1');
 	});
@@ -60,8 +68,8 @@ describe('User Service', () => {
 	it('validateUser - success', async () => {
 		usersRepository.find = jest.fn().mockReturnValueOnce(createdUser);
 		const res = await usersService.validateUser({
-			email: 'a@a.ru',
-			password: '1',
+			email: USER_SUCCESS.email,
+			password: USER_SUCCESS.password,
 		});
 		expect(res).toBeTruthy();
 	});
@@ -69,8 +77,8 @@ describe('User Service', () => {
 	it('validateUser - wrong password', async () => {
 		usersRepository.find = jest.fn().mockReturnValueOnce(createdUser);
 		const res = await usersService.validateUser({
-			email: 'a@a.ru',
-			password: '2',
+			email: USER_SUCCESS.email,
+			password: USER_ERROR.password,
 		});
 		expect(res).toBeFalsy();
 	});
@@ -78,8 +86,8 @@ describe('User Service', () => {
 	it('validateUser - wrong user', async () => {
 		usersRepository.find = jest.fn().mockReturnValueOnce(null);
 		const res = await usersService.validateUser({
-			email: 'a2@a.ru',
-			password: '2',
+			email: USER_ERROR.email,
+			password: USER_ERROR.password,
 		});
 		expect(res).toBeFalsy();
 	});

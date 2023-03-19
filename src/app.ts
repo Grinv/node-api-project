@@ -3,7 +3,6 @@ import { Server } from 'http';
 import { inject, injectable } from 'inversify';
 import { ILogger } from './logger/logger.interface';
 import { TYPES } from './types';
-import { json } from 'body-parser';
 import 'reflect-metadata';
 import swaggerUi from 'swagger-ui-express';
 import { IConfigService } from './config/config.service.interface';
@@ -32,7 +31,7 @@ export class App {
 	}
 
 	useMiddleware(): void {
-		this.app.use(json());
+		this.app.use(express.json());
 		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
 		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}

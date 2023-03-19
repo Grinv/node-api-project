@@ -27,21 +27,20 @@ enum Role {
 
 model ProductModel {
     id             Int             @id @default(autoincrement())
-    color          Color?
+    colorModelId   Int
+    color          ColorModel      @relation(fields: [colorModelId], references: [id])
     title          String
     description    String?
     price          Decimal?        @db.Money
     createdAt      DateTime        @default(now())
     updatedAt      DateTime        @updatedAt
-    WarehouseModel WarehouseModel?
+    warehouseModel WarehouseModel?
 }
 
-enum Color {
-    BLACK
-    WHITE
-    RED
-    BLUE
-    YELLOW
+model ColorModel {
+    id           Int            @id @default(autoincrement())
+    color        String
+    ProductModel ProductModel[]
 }
 
 model WarehouseModel {
