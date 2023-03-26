@@ -8,11 +8,11 @@ import 'reflect-metadata';
 import { IUserController } from './types/users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
-import { ValidateMiddleware } from '../common/validate.middleware';
+import { ValidateMiddleware } from '../common/middleware/validate.middleware';
 import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../config/config.service.interface';
 import { IUserService } from './types/users.service.interface';
-import { AuthGuard } from '../common/auth.guard';
+import { AuthGuard } from '../common/middleware/auth.guard';
 import { Role, UserModel } from '@prisma/client';
 
 @injectable()
@@ -53,7 +53,7 @@ export class UserController extends BaseController implements IUserController {
 		const userInfo = await this.userService.getUserInfo(req.body.email);
 
 		if (!userInfo) {
-			return next(new HTTPError(404, `Пользователя с email ${req.body} не существует`, 'login'));
+			return next(new HTTPError(400, `Пользователя с email ${req.body} не существует`, 'login'));
 		}
 
 		const isPasswordValid = await this.userService.validateUser(req.body);
