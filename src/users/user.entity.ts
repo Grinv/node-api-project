@@ -1,16 +1,22 @@
 import { compare, hash } from 'bcryptjs';
 
 export class User {
-	private _password: string;
+	private readonly _email;
+	private _password;
+	private readonly _name;
 
-	constructor(
-		private readonly _email: string,
-		private readonly _name: string,
-		passwordHash?: string,
-	) {
-		if (passwordHash) {
-			this._password = passwordHash;
-		}
+	constructor({
+		email,
+		name,
+		passwordHash,
+	}: {
+		email: string;
+		name?: string | null;
+		passwordHash?: string;
+	}) {
+		this._email = email;
+		this._name = name || '';
+		this._password = passwordHash || '';
 	}
 
 	get email(): string {

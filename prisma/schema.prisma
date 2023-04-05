@@ -15,12 +15,38 @@ model UserModel {
     name      String?
     email     String   @unique
     password  String
-    role      Role     @default(USER)
+    role      Role     @default(MANAGER)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 enum Role {
-    USER
     ADMIN
+    MANAGER
+}
+
+model ProductModel {
+    id             Int             @id @default(autoincrement())
+    colorModelId   Int
+    color          ColorModel      @relation(fields: [colorModelId], references: [id])
+    title          String
+    description    String?
+    price          Decimal?        @db.Money
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @updatedAt
+    warehouseModel WarehouseModel?
+}
+
+model ColorModel {
+    id           Int            @id @default(autoincrement())
+    color        String
+    ProductModel ProductModel[]
+}
+
+model WarehouseModel {
+    product   ProductModel @relation(fields: [productId], references: [id])
+    productId Int          @unique
+    quantity  Int          @default(0)
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @updatedAt
 }

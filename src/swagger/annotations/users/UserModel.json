@@ -1,0 +1,44 @@
+{
+  "schemas": {
+    "Role": {
+      "type": "string",
+      "format": "enum",
+      "enum": [
+        "ADMIN",
+        "MANAGER"
+      ]
+    },
+    "UserModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "id"
+        },
+        "name": {
+          "type": "string",
+          "format": "name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        },
+        "role": {
+          "$ref": "#/schemas/Role"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

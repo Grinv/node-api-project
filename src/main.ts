@@ -7,13 +7,15 @@ import { ExeptionFilter } from './errors/exeption.filter';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { ILogger } from './logger/logger.interface';
 import { LoggerService } from './logger/logger.service';
+import { SwaggerController } from './swagger/swagger.controller';
+import { ISwaggerController } from './swagger/swagger.controller.interface';
 import { TYPES } from './types';
 import { UserController } from './users/users.controller';
-import { IUserController } from './users/users.controller.interface';
+import { IUserController } from './users/types/users.controller.interface';
 import { UsersRepository } from './users/users.repository';
-import { IUsersRepository } from './users/users.repository.interface';
+import { IUsersRepository } from './users/types/users.repository.interface';
 import { UserService } from './users/users.service';
-import { IUserService } from './users/users.service.interface';
+import { IUserService } from './users/types/users.service.interface';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -28,6 +30,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
+	bind<ISwaggerController>(TYPES.SwaggerController).to(SwaggerController).inSingletonScope();
 	bind<App>(TYPES.Application).to(App);
 });
 

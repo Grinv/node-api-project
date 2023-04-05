@@ -5,8 +5,8 @@ import { TYPES } from '../types';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { User } from './user.entity';
-import { IUsersRepository } from './users.repository.interface';
-import { IUserService } from './users.service.interface';
+import { IUsersRepository } from './types/users.repository.interface';
+import { IUserService } from './types/users.service.interface';
 
 @injectable()
 export class UserService implements IUserService {
@@ -15,7 +15,7 @@ export class UserService implements IUserService {
 		@inject(TYPES.UsersRepository) private usersRepository: IUsersRepository,
 	) {}
 	async createUser({ email, name, password }: UserRegisterDto): Promise<UserModel | null> {
-		const newUser = new User(email, name);
+		const newUser = new User({ email, name });
 		const salt = this.configService.get('SALT');
 		await newUser.setPassword(password, Number(salt));
 		const existedUser = await this.usersRepository.find(email);
@@ -30,7 +30,12 @@ export class UserService implements IUserService {
 		if (!existedUser) {
 			return false;
 		}
-		const newUser = new User(existedUser.email, existedUser.name, existedUser.password);
+
+		const newUser = new User({
+			email: existedUser.email,
+			name: existedUser.name,
+			passwordHash: existedUser.password,
+		});
 		return newUser.comparePassword(password);
 	}
 

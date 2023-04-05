@@ -5,14 +5,15 @@ import { HTTPError } from '../errors/http-error.class';
 import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../types';
 import 'reflect-metadata';
-import { IUserController } from './users.controller.interface';
+import { IUserController } from './types/users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { ValidateMiddleware } from '../common/validate.middleware';
 import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../config/config.service.interface';
-import { IUserService } from './users.service.interface';
+import { IUserService } from './types/users.service.interface';
 import { AuthGuard } from '../common/auth.guard';
+import { Role, UserModel } from '@prisma/client';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -49,11 +50,19 @@ export class UserController extends BaseController implements IUserController {
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const result = await this.userService.validateUser(req.body);
-		if (!result) {
+		const userInfo = await this.userService.getUserInfo(req.body.email);
+
+		if (!userInfo) {
+			return next(new HTTPError(404, `Пользователя с email ${req.body} не существует`, 'login'));
+		}
+
+		const isPasswordValid = await this.userService.validateUser(req.body);
+
+		if (!isPasswordValid) {
 			return next(new HTTPError(401, 'ошибка авторизации', 'login'));
 		}
-		const jwt = await this.signJWT(req.body.email, this.configService.get('SECRET'));
+
+		const jwt = await this.signJWT(req.body.email, userInfo.role, this.configService.get('SECRET'));
 		this.ok(res, { jwt });
 	}
 
@@ -66,7 +75,7 @@ export class UserController extends BaseController implements IUserController {
 		if (!result) {
 			return next(new HTTPError(422, 'Такой пользователь уже существует'));
 		}
-		this.ok(res, { email: result.email, id: result.id });
+		this.send(res, 201, { email: result.email, id: result.id });
 	}
 
 	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
@@ -74,11 +83,12 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { email: userInfo?.email, id: userInfo?.id });
 	}
 
-	private signJWT(email: string, secret: string): Promise<string> {
+	private signJWT(email: string, role: Role, secret: string): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
 			sign(
 				{
 					email,
+					role,
 					iat: Math.floor(Date.now() / 1000),
 				},
 				secret,
