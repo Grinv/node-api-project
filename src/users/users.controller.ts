@@ -59,7 +59,7 @@ export class UserController extends BaseController implements IUserController {
 		const isPasswordValid = await this.userService.validateUser(req.body);
 
 		if (!isPasswordValid) {
-			return next(new HTTPError(401, 'ошибка авторизации', 'login'));
+			return next(new HTTPError(401, 'Ошибка авторизации', 'login'));
 		}
 
 		const jwt = await this.signJWT(req.body.email, userInfo.role, this.configService.get('SECRET'));

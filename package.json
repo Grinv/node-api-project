@@ -22,6 +22,7 @@
 	"author": "Konstantin Ostrovskii",
 	"license": "ISC",
 	"dependencies": {
+		"@apidevtools/swagger-parser": "^10.1.0",
 		"@prisma/client": "^4.13.0",
 		"bcryptjs": "^2.4.3",
 		"class-transformer": "^0.5.1",

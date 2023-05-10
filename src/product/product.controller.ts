@@ -8,9 +8,9 @@ import 'reflect-metadata';
 import { ValidateMiddleware } from '../common/middleware/validate.middleware';
 import { ProductIdGuard } from '../common/middleware/productId.guard';
 import { IProductController } from './types/product.controller.interface';
-import { ProductCreateDto } from './dto/ProductCreateDto';
-import { ProductUpdateDto } from './dto/ProductUpdateDto';
-import { ProductFindDto } from './dto/ProductFindDto';
+import { ProductCreateDto } from './dto/product-create.dto';
+import { ProductUpdateDto } from './dto/product-update.dto';
+import { ProductFindDto } from './dto/product-find.dto';
 import { IProductService } from './types/product.service.interface';
 
 @injectable()

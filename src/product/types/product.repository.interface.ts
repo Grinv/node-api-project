@@ -1,6 +1,6 @@
 import { ProductModel } from '@prisma/client';
-import { ProductCreateDto } from '../dto/ProductCreateDto';
-import { ProductFindDto } from '../dto/ProductFindDto';
+import { ProductCreateDto } from '../dto/product-create.dto';
+import { ProductFindDto } from '../dto/product-find.dto';
 
 export interface IProductRepository {
 	create: (product: ProductCreateDto) => Promise<ProductModel>;

@@ -12,6 +12,7 @@ import { ProductController } from './product/product.controller';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { SwaggerController } from './swagger/swagger.controller';
+import generateSwaggerDocs from './swagger/utils/generateSwaggerDocs';
 
 @injectable()
 export class App {
@@ -38,10 +39,12 @@ export class App {
 		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
-	useRoutes(): void {
+	async useRoutes(): Promise<void> {
 		this.app.use('/users', this.userController.router);
 		this.app.use('/product', this.productController.router);
-		this.app.use('/api-docs', swaggerUi.serve, this.swaggerController.router);
+
+		const swaggerDocs = await generateSwaggerDocs();
+		this.app.use('/api-docs', swaggerUi.serveFiles(swaggerDocs), this.swaggerController.router);
 	}
 
 	useExeptionFilters(): void {
@@ -50,7 +53,7 @@ export class App {
 
 	public async init(): Promise<void> {
 		this.useMiddleware();
-		this.useRoutes();
+		await this.useRoutes();
 		this.useExeptionFilters();
 		await this.prismaService.connect();
 		this.server = this.app.listen(this.port);

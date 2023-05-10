@@ -1,0 +1,222 @@
+{
+	"Role": {
+		"type": "string",
+		"format": "enum",
+		"enum": [
+			"ADMIN",
+			"MANAGER"
+		]
+	},
+	"UserCreate": {
+		"type": "object",
+		"required": [
+			"email",
+			"password"
+		],
+		"properties": {
+			"name": {
+				"type": "string",
+				"format": "name"
+			},
+			"password": {
+				"type": "string",
+				"format": "password"
+			},
+			"email": {
+				"type": "string",
+				"format": "email"
+			}
+		}
+	},
+	"UserLogin": {
+		"required": [
+			"email",
+			"password"
+		],
+		"type": "object",
+		"properties": {
+			"email": {
+				"type": "string",
+				"format": "email"
+			},
+			"password": {
+				"type": "string",
+				"format": "password"
+			}
+		}
+	},
+	"UserInfoResponse": {
+		"type": "object",
+		"properties": {
+			"username": {
+				"type": "string",
+				"format": "email"
+			},
+			"id": {
+				"type": "integer",
+				"format": "id"
+			}
+		}
+	},
+	"UserModel": {
+		"type": "object",
+		"properties": {
+			"id": {
+				"type": "integer",
+				"format": "id"
+			},
+			"name": {
+				"type": "string",
+				"format": "name"
+			},
+			"email": {
+				"type": "string",
+				"format": "email"
+			},
+			"password": {
+				"type": "string",
+				"format": "password"
+			},
+			"createdAt": {
+				"type": "string",
+				"format": "date-time"
+			},
+			"updatedAt": {
+				"type": "string",
+				"format": "date-time"
+			}
+		}
+	},
+	"ProductCreate": {
+		"type": "object",
+		"required": [
+			"title"
+		],
+		"properties": {
+			"title": {
+				"type": "string",
+				"format": "title"
+			},
+			"color": {
+				"type": "string",
+				"format": "color"
+			},
+			"description": {
+				"type": "string",
+				"format": "description"
+			},
+			"price": {
+				"oneOf": [
+					{
+						"type": "string",
+						"format": "decimal"
+					},
+					{
+						"type": "number",
+						"format": "decimal"
+					}
+				]
+
+			}
+		}
+	},
+	"ProductFindReq": {
+		"type": "object",
+		"properties": {
+			"title": {
+				"type": "string",
+				"format": "title"
+			},
+			"colorId": {
+				"type": "number",
+				"format": "id"
+			},
+			"description": {
+				"type": "string",
+				"format": "description"
+			},
+			"price": {
+				"oneOf": [
+					{
+						"type": "string",
+						"format": "decimal"
+					},
+					{
+						"type": "number",
+						"format": "decimal"
+					}
+				]
+
+			}
+		}
+	},
+	"ProductFindRes": {
+		"type": "array",
+		"items": {
+			"$ref": "#/ProductModel"
+		}
+	},
+	"ProductModel": {
+		"type": "object",
+		"properties": {
+			"id": {
+				"type": "number",
+				"format": "id"
+			},
+			"colorId": {
+				"type": "number",
+				"format": "id"
+			},
+			"title": {
+				"type": "string",
+				"format": "title"
+			},
+			"description": {
+				"type": "string",
+				"format": "description"
+			},
+			"price": {
+				"type": "string",
+				"format": "decimal"
+			},
+			"createdAt": {
+				"type": "string",
+				"format": "date-time"
+			},
+			"updatedAt": {
+				"type": "string",
+				"format": "date-time"
+			}
+		}
+	},
+	"ProductUpdate": {
+		"type": "object",
+		"properties": {
+			"title": {
+				"type": "string",
+				"format": "title"
+			},
+			"color": {
+				"type": "string",
+				"format": "color"
+			},
+			"description": {
+				"type": "string",
+				"format": "description"
+			},
+			"price": {
+				"oneOf": [
+					{
+						"type": "string",
+						"format": "decimal"
+					},
+					{
+						"type": "number",
+						"format": "decimal"
+					}
+				]
+
+			}
+		}
+	}
+}

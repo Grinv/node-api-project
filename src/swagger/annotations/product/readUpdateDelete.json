@@ -1,0 +1,11 @@
+{
+    "get": {
+        "$ref": "./getById.json"
+    },
+	"patch": {
+        "$ref": "./update.json"
+	},
+    "delete": {
+        "$ref": "./delete.json"
+	}
+}

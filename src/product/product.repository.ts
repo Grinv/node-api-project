@@ -4,8 +4,8 @@ import { inject, injectable } from 'inversify';
 import { PrismaService } from '../database/prisma.service';
 import { TYPES } from '../types';
 import { IProductRepository } from './types/product.repository.interface';
-import { ProductCreateDto } from './dto/ProductCreateDto';
-import { ProductFindDto } from './dto/ProductFindDto';
+import { ProductCreateDto } from './dto/product-create.dto';
+import { ProductFindDto } from './dto/product-find.dto';
 
 @injectable()
 export class ProductRepository implements IProductRepository {

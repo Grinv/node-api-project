@@ -5,7 +5,6 @@ import { TYPES } from '../types';
 import 'reflect-metadata';
 import { IConfigService } from '../config/config.service.interface';
 import swaggerUi from 'swagger-ui-express';
-import specs from './annotations/swagger.json';
 
 @injectable()
 export class SwaggerController extends BaseController {
@@ -18,7 +17,7 @@ export class SwaggerController extends BaseController {
 			{
 				path: '/',
 				method: 'get',
-				func: swaggerUi.setup(specs),
+				func: swaggerUi.setup(),
 			},
 		]);
 		loggerService.log(

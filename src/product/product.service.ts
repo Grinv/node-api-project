@@ -1,8 +1,8 @@
 import { ProductModel } from '.prisma/client';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
-import { ProductCreateDto } from './dto/ProductCreateDto';
-import { ProductFindDto } from './dto/ProductFindDto';
+import { ProductCreateDto } from './dto/product-create.dto';
+import { ProductFindDto } from './dto/product-find.dto';
 import { IConfigService } from '../config/config.service.interface';
 import { IProductRepository } from './types/product.repository.interface';
 import { IProductService } from './types/product.service.interface';
