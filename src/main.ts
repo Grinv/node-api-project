@@ -22,6 +22,12 @@ import { IProductService } from './product/types/product.service.interface';
 import { ProductService } from './product/product.service';
 import { IProductRepository } from './product/types/product.repository.interface';
 import { ProductRepository } from './product/product.repository';
+import { IWarehouseController } from './warehouse/types/warehouse.controller.interface';
+import { WarehouseController } from './warehouse/warehouse.controller';
+import { WarehouseService } from './warehouse/warehouse.service';
+import { IWarehouseService } from './warehouse/types/warehouse.service.interface';
+import { IWarehouseRepository } from './warehouse/types/warehouse.repository.interface';
+import { WarehouseRepository } from './warehouse/warehouse.repository';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -36,6 +42,9 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IProductController>(TYPES.ProductController).to(ProductController);
 	bind<IProductService>(TYPES.ProductService).to(ProductService);
 	bind<IProductRepository>(TYPES.ProductRepository).to(ProductRepository);
+	bind<IWarehouseController>(TYPES.WarehouseController).to(WarehouseController);
+	bind<IWarehouseService>(TYPES.WarehouseService).to(WarehouseService);
+	bind<IWarehouseRepository>(TYPES.WarehouseRepository).to(WarehouseRepository);
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();

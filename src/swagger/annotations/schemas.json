@@ -218,5 +218,35 @@
 
 			}
 		}
+	},
+	"WarehouseModel": {
+		"type": "object",
+		"properties": {
+			"productId": {
+				"type": "integer",
+				"format": "id"
+			},
+			"quantity": {
+				"type": "number",
+				"format": "quantity"
+			},
+			"createdAt": {
+				"type": "string",
+				"format": "date-time"
+			},
+			"updatedAt": {
+				"type": "string",
+				"format": "date-time"
+			}
+		}
+	},
+	"WarehousePutReq": {
+		"type": "object",
+		"properties": {
+			"quantity": {
+				"type": "number",
+				"format": "number"
+			}
+		}
 	}
 }

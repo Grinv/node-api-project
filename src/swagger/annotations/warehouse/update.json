@@ -1,0 +1,43 @@
+{
+	"tags": [
+		"Warehouse"
+	],
+	"security": [
+		{
+			"bearerAuth": []
+		}
+	],
+	"summary": "Create or update product quantity in warehouse",
+	"parameters": [
+		{
+			"name": "productId",
+			"in": "path",
+			"description": "Put product quantity",
+			"required": true,
+			"schema": {
+				"type": "number",
+				"format": "id"
+			}
+		}
+	],
+	"requestBody": {
+		"content": {
+			"application/json": {
+				"schema": {
+					"$ref": "../schemas.json#/WarehousePutReq"
+				}
+			}
+		}
+	},
+	"responses": {
+		"204": {
+			"description": "OK"
+		},
+		"400": {
+			"description": "Такого продукта не существует или параметры указаны неверно"
+		},
+		"401": {
+			"description": "Вы не авторизованы"
+		}
+	}
+}

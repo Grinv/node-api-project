@@ -35,6 +35,10 @@
 		{
 			"name": "Product",
 			"description": "CRUD Product"
+		},
+		{
+			"name": "Warehouse",
+			"description": "CRUD Warehouse"
 		}
 	],
 	"paths": {
@@ -54,7 +58,10 @@
 			"$ref": "./product/find.json"
 		},
 		"/product/{productId}": {
-			"$ref": "./product/readUpdateDelete.json"
+			"$ref": "./product/index.json"
+		},
+		"/warehouse/{productId}": {
+			"$ref": "./warehouse/index.json"
 		}
 	}
 }

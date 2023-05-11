@@ -9,6 +9,7 @@ import { IConfigService } from './config/config.service.interface';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { UserController } from './users/users.controller';
 import { ProductController } from './product/product.controller';
+import { WarehouseController } from './warehouse/warehouse.controller';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { SwaggerController } from './swagger/swagger.controller';
@@ -24,6 +25,7 @@ export class App {
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: UserController,
 		@inject(TYPES.ProductController) private productController: ProductController,
+		@inject(TYPES.WarehouseController) private warehouseController: WarehouseController,
 		@inject(TYPES.SwaggerController) private swaggerController: SwaggerController,
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
@@ -42,6 +44,7 @@ export class App {
 	async useRoutes(): Promise<void> {
 		this.app.use('/users', this.userController.router);
 		this.app.use('/product', this.productController.router);
+		this.app.use('/warehouse', this.warehouseController.router);
 
 		const swaggerDocs = await generateSwaggerDocs();
 		this.app.use('/api-docs', swaggerUi.serveFiles(swaggerDocs), this.swaggerController.router);
