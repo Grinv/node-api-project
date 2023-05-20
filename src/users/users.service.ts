@@ -7,6 +7,8 @@ import { UserRegisterDto } from './dto/user-register.dto';
 import { User } from './user.entity';
 import { IUsersRepository } from './types/users.repository.interface';
 import { IUserService } from './types/users.service.interface';
+import { UserUpdateDto } from './dto/user-update.dto';
+import cryptPassword from '../common/utils/cryptPassword';
 
 @injectable()
 export class UserService implements IUserService {
@@ -41,5 +43,25 @@ export class UserService implements IUserService {
 
 	async getUserInfo(email: string): Promise<UserModel | null> {
 		return this.usersRepository.find(email);
+	}
+
+	async update(userId: number, user: UserUpdateDto): Promise<UserModel | null> {
+		try {
+			if (user.password) {
+				const salt = this.configService.get('SALT');
+				user.password = await cryptPassword(user.password, Number(salt));
+			}
+			return await this.usersRepository.update(userId, user);
+		} catch {
+			return null;
+		}
+	}
+
+	async delete(userId: number): Promise<UserModel | null> {
+		try {
+			return await this.usersRepository.delete(userId);
+		} catch {
+			return null;
+		}
 	}
 }

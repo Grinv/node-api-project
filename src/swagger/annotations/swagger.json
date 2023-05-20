@@ -51,6 +51,9 @@
 		"/users/info": {
 			"$ref": "./users/info.json"
 		},
+		"/users/{userId}": {
+			"$ref": "./users/index.json"
+		},
 		"/product/create": {
 			"$ref": "./product/create.json"
 		},

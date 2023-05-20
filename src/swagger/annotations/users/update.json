@@ -1,0 +1,43 @@
+{
+	"tags": [
+		"Users"
+	],
+	"security": [
+		{
+			"bearerAuth": []
+		}
+	],
+	"summary": "Update user information",
+	"parameters": [
+		{
+			"name": "userId",
+			"in": "path",
+			"description": "ID of user to update",
+			"required": true,
+			"schema": {
+				"type": "number",
+				"format": "id"
+			}
+		}
+	],
+	"requestBody": {
+		"content": {
+			"application/json": {
+				"schema": {
+					"$ref": "../schemas.json#/UserUpdate"
+				}
+			}
+		}
+	},
+	"responses": {
+		"204": {
+			"description": "OK"
+		},
+		"400": {
+			"description": "Такого юзера не существует или параметры указаны неверно"
+		},
+		"401": {
+			"description": "Вы не авторизованы"
+		}
+	}
+}

@@ -13,7 +13,8 @@ import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../config/config.service.interface';
 import { IUserService } from './types/users.service.interface';
 import { AuthGuard } from '../common/middleware/auth.guard';
-import { Role, UserModel } from '@prisma/client';
+import { Role } from '@prisma/client';
+import { UserUpdateDto } from './dto/user-update.dto';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -40,6 +41,18 @@ export class UserController extends BaseController implements IUserController {
 				path: '/info',
 				method: 'get',
 				func: this.info,
+				middlewares: [new AuthGuard()],
+			},
+			{
+				path: '/:userId',
+				method: 'patch',
+				func: this.update,
+				middlewares: [new AuthGuard(), new ValidateMiddleware(UserUpdateDto)],
+			},
+			{
+				path: '/:userId',
+				method: 'delete',
+				func: this.delete,
 				middlewares: [new AuthGuard()],
 			},
 		]);
@@ -81,6 +94,26 @@ export class UserController extends BaseController implements IUserController {
 	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
 		const userInfo = await this.userService.getUserInfo(user);
 		this.ok(res, { email: userInfo?.email, id: userInfo?.id });
+	}
+
+	async update(req: Request, res: Response<void>, next: NextFunction): Promise<void> {
+		const user = await this.userService.update(Number(req.params.userId), req.body);
+
+		if (!user) {
+			return next(new HTTPError(400, 'Такого юзера не существует или параметры указаны неверно'));
+		} else {
+			this.send(res, 204, null);
+		}
+	}
+
+	async delete(req: Request, res: Response<void>, next: NextFunction): Promise<void> {
+		const user = await this.userService.delete(Number(req.params.userId));
+
+		if (!user) {
+			return next(new HTTPError(400, 'Такого юзера не существует'));
+		} else {
+			this.send(res, 204, null);
+		}
 	}
 
 	private signJWT(email: string, role: Role, secret: string): Promise<string> {
