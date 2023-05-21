@@ -10,6 +10,9 @@ import { ProductIdGuard } from '../common/middleware/productId.guard';
 import { IWarehouseController } from './types/warehouse.controller.interface';
 import { WarehouseUpdateDto } from './dto/warehouse-update.dto';
 import { IWarehouseService } from './types/warehouse.service.interface';
+import { AuthGuard } from '../common/middleware/auth.guard';
+import { PermissionGuard } from '../common/middleware/permission.guard';
+import { Role } from '@prisma/client';
 
 @injectable()
 export class WarehouseController extends BaseController implements IWarehouseController {
@@ -23,19 +26,23 @@ export class WarehouseController extends BaseController implements IWarehouseCon
 				path: '/:productId',
 				method: 'put',
 				func: this.update,
-				middlewares: [new ProductIdGuard(), new ValidateMiddleware(WarehouseUpdateDto)],
+				middlewares: [
+					new AuthGuard(),
+					new ProductIdGuard(),
+					new ValidateMiddleware(WarehouseUpdateDto),
+				],
 			},
 			{
 				path: '/:productId',
 				method: 'get',
 				func: this.get,
-				middlewares: [new ProductIdGuard()],
+				middlewares: [new AuthGuard(), new ProductIdGuard()],
 			},
 			{
 				path: '/:productId',
 				method: 'delete',
 				func: this.delete,
-				middlewares: [new ProductIdGuard()],
+				middlewares: [new AuthGuard(), new ProductIdGuard()],
 			},
 		]);
 	}

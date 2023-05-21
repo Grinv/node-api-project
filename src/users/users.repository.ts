@@ -29,7 +29,6 @@ export class UsersRepository implements IUsersRepository {
 	}
 
 	async update(userId: number, data: UserUpdateDto): Promise<UserModel | null> {
-		console.log('INFO!', data);
 		return this.prismaService.client.userModel.update({
 			where: {
 				id: userId,

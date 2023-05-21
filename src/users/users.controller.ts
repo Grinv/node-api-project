@@ -15,6 +15,7 @@ import { IUserService } from './types/users.service.interface';
 import { AuthGuard } from '../common/middleware/auth.guard';
 import { Role } from '@prisma/client';
 import { UserUpdateDto } from './dto/user-update.dto';
+import { PermissionGuard } from '../common/middleware/permission.guard';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -75,7 +76,12 @@ export class UserController extends BaseController implements IUserController {
 			return next(new HTTPError(401, 'Ошибка авторизации', 'login'));
 		}
 
-		const jwt = await this.signJWT(req.body.email, userInfo.role, this.configService.get('SECRET'));
+		const jwt = await this.signJWT(
+			req.body.email,
+			userInfo.id,
+			userInfo.role,
+			this.configService.get('SECRET'),
+		);
 		this.ok(res, { jwt });
 	}
 
@@ -93,11 +99,19 @@ export class UserController extends BaseController implements IUserController {
 
 	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
 		const userInfo = await this.userService.getUserInfo(user);
-		this.ok(res, { email: userInfo?.email, id: userInfo?.id });
+		this.ok(res, { email: userInfo?.email, id: userInfo?.id, role: userInfo?.role });
 	}
 
 	async update(req: Request, res: Response<void>, next: NextFunction): Promise<void> {
-		const user = await this.userService.update(Number(req.params.userId), req.body);
+		const userIdForChange = Number(req.params.userId);
+
+		if (req.role !== Role.ADMIN) {
+			if (userIdForChange !== req.userId || req.body.role) {
+				return next(new HTTPError(402, 'Недостаточно прав'));
+			}
+		}
+
+		const user = await this.userService.update(userIdForChange, req.body);
 
 		if (!user) {
 			return next(new HTTPError(400, 'Такого юзера не существует или параметры указаны неверно'));
@@ -107,7 +121,13 @@ export class UserController extends BaseController implements IUserController {
 	}
 
 	async delete(req: Request, res: Response<void>, next: NextFunction): Promise<void> {
-		const user = await this.userService.delete(Number(req.params.userId));
+		const userIdForChange = Number(req.params.userId);
+
+		if (req.role !== Role.ADMIN && userIdForChange !== req.userId) {
+			return next(new HTTPError(402, 'Недостаточно прав'));
+		}
+
+		const user = await this.userService.delete(userIdForChange);
 
 		if (!user) {
 			return next(new HTTPError(400, 'Такого юзера не существует'));
@@ -116,11 +136,12 @@ export class UserController extends BaseController implements IUserController {
 		}
 	}
 
-	private signJWT(email: string, role: Role, secret: string): Promise<string> {
+	private signJWT(email: string, id: number, role: Role, secret: string): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
 			sign(
 				{
 					email,
+					id,
 					role,
 					iat: Math.floor(Date.now() / 1000),
 				},

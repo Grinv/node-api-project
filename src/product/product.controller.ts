@@ -12,6 +12,9 @@ import { ProductCreateDto } from './dto/product-create.dto';
 import { ProductUpdateDto } from './dto/product-update.dto';
 import { ProductFindDto } from './dto/product-find.dto';
 import { IProductService } from './types/product.service.interface';
+import { AuthGuard } from '../common/middleware/auth.guard';
+import { PermissionGuard } from '../common/middleware/permission.guard';
+import { Role } from '@prisma/client';
 
 @injectable()
 export class ProductController extends BaseController implements IProductController {
@@ -25,31 +28,40 @@ export class ProductController extends BaseController implements IProductControl
 				path: '/create',
 				method: 'post',
 				func: this.create,
-				middlewares: [new ValidateMiddleware(ProductCreateDto)],
+				middlewares: [
+					new AuthGuard(),
+					new PermissionGuard([Role.ADMIN]),
+					new ValidateMiddleware(ProductCreateDto),
+				],
 			},
 			{
 				path: '/find',
 				method: 'post',
 				func: this.find,
-				middlewares: [new ValidateMiddleware(ProductFindDto)],
+				middlewares: [new AuthGuard(), new ValidateMiddleware(ProductFindDto)],
 			},
 			{
 				path: '/:productId',
 				method: 'get',
 				func: this.getById,
-				middlewares: [new ProductIdGuard()],
+				middlewares: [new AuthGuard(), new ProductIdGuard()],
 			},
 			{
 				path: '/:productId',
 				method: 'patch',
 				func: this.update,
-				middlewares: [new ProductIdGuard(), new ValidateMiddleware(ProductUpdateDto)],
+				middlewares: [
+					new AuthGuard(),
+					new PermissionGuard([Role.ADMIN]),
+					new ProductIdGuard(),
+					new ValidateMiddleware(ProductUpdateDto),
+				],
 			},
 			{
 				path: '/:productId',
 				method: 'delete',
 				func: this.delete,
-				middlewares: [new ProductIdGuard()],
+				middlewares: [new AuthGuard(), new PermissionGuard([Role.ADMIN]), new ProductIdGuard()],
 			},
 		]);
 	}
