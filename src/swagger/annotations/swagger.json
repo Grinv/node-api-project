@@ -21,6 +21,12 @@
 				"type": "http",
 				"scheme": "bearer",
 				"bearerFormat": "JWT"
+			},
+			"bearerAuthAdmin": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+				"description": "Roles required: Admin"
 			}
 		},
 		"schemas": {

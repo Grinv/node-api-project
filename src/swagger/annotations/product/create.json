@@ -5,7 +5,7 @@
 		],
 		"security": [
 			{
-				"bearerAuth": []
+				"bearerAuthAdmin": []
 			}
 		],
 		"summary": "Create product",

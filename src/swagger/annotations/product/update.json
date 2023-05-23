@@ -4,7 +4,7 @@
 	],
 	"security": [
 		{
-			"bearerAuth": []
+			"bearerAuthAdmin": []
 		}
 	],
 	"summary": "Update product information",

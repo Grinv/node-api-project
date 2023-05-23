@@ -11,8 +11,6 @@ import { IWarehouseController } from './types/warehouse.controller.interface';
 import { WarehouseUpdateDto } from './dto/warehouse-update.dto';
 import { IWarehouseService } from './types/warehouse.service.interface';
 import { AuthGuard } from '../common/middleware/auth.guard';
-import { PermissionGuard } from '../common/middleware/permission.guard';
-import { Role } from '@prisma/client';
 
 @injectable()
 export class WarehouseController extends BaseController implements IWarehouseController {
