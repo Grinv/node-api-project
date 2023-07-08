@@ -98,9 +98,9 @@ export class ProductController extends BaseController implements IProductControl
 
 		if (!product) {
 			return next(new HTTPError(400, 'Такого продукта не существует'));
-		} else {
-			this.ok(res, product);
 		}
+
+		this.ok(res, product);
 	}
 
 	async update(req: Request, res: Response<void>, next: NextFunction): Promise<void> {
@@ -120,8 +120,8 @@ export class ProductController extends BaseController implements IProductControl
 
 		if (!product) {
 			return next(new HTTPError(400, 'Такого продукта не существует'));
-		} else {
-			this.send(res, 204, null);
 		}
+
+		this.send(res, 204, null);
 	}
 }

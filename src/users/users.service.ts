@@ -51,17 +51,13 @@ export class UserService implements IUserService {
 				const salt = this.configService.get('SALT');
 				user.password = await cryptPassword(user.password, Number(salt));
 			}
-			return await this.usersRepository.update(userId, user);
+			return this.usersRepository.update(userId, user);
 		} catch {
 			return null;
 		}
 	}
 
 	async delete(userId: number): Promise<UserModel | null> {
-		try {
-			return await this.usersRepository.delete(userId);
-		} catch {
-			return null;
-		}
+		return this.usersRepository.delete(userId);
 	}
 }

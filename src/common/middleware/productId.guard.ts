@@ -6,7 +6,7 @@ export class ProductIdGuard implements IMiddleware {
 		const productId = Number(req.params.productId);
 
 		if (Number.isNaN(productId)) {
-			res.status(400).send({ error: 'Некорректный id продукта' });
+			res.status(400).send({ error: 'Id должен содержать только цифры' });
 		}
 
 		return next();

@@ -1,18 +1,19 @@
-import { Decimal } from '@prisma/client/runtime';
 import { Prisma, ProductModel } from '.prisma/client';
 import { inject, injectable } from 'inversify';
 import { PrismaService } from '../database/prisma.service';
 import { TYPES } from '../types';
-import { IProductRepository } from './types/product.repository.interface';
-import { ProductCreateDto } from './dto/product-create.dto';
-import { ProductFindDto } from './dto/product-find.dto';
+import {
+	IProductRepository,
+	IProductCreate,
+	IProductFind,
+} from './types/product.repository.interface';
 
 @injectable()
 export class ProductRepository implements IProductRepository {
 	constructor(@inject(TYPES.PrismaService) private prismaService: PrismaService) {}
 
-	async create({ title, color, description, price }: ProductCreateDto): Promise<ProductModel> {
-		const data: Prisma.ProductModelCreateInput = { title, description };
+	async create({ title, color, description, price }: IProductCreate): Promise<ProductModel> {
+		const data: Prisma.ProductModelCreateInput = { title, description, price };
 
 		if (color) {
 			data.color = {
@@ -27,22 +28,18 @@ export class ProductRepository implements IProductRepository {
 			};
 		}
 
-		if (price) {
-			data.price = new Decimal(price);
-		}
-
 		return this.prismaService.client.productModel.create({ data });
 	}
 
-	async find(data: ProductFindDto): Promise<ProductModel[]> {
+	async find(data: IProductFind): Promise<ProductModel[]> {
 		const query: Prisma.ProductModelWhereInput = {};
 
 		if (data.title) {
-			query.title = { contains: data.title };
+			query.title = { in: data.title };
 		}
 
-		if (data.description) {
-			query.description = { contains: data.description };
+		if (data.text) {
+			query.title = { contains: data.text };
 		}
 
 		if (data.colorId) {

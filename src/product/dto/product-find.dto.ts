@@ -10,8 +10,7 @@ export class ProductFindDto {
 	title?: string;
 
 	@IsOptional()
-	@IsString({ message: 'Неверно указано описание' })
-	description?: string;
+	text?: string;
 
 	@IsOptional()
 	@IsNumber(undefined, { message: 'Неверно указана цена' })

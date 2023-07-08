@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { IConfigService } from '../config/config.service.interface';
 import { IWarehouseRepository } from './types/warehouse.repository.interface';
-import { IWarehouseService } from './types/warehouse.service.interface';
+import { IQuantity, IWarehouseService } from './types/warehouse.service.interface';
 
 @injectable()
 export class WarehouseService implements IWarehouseService {
@@ -12,23 +12,15 @@ export class WarehouseService implements IWarehouseService {
 		@inject(TYPES.WarehouseRepository) private warehouseRepository: IWarehouseRepository,
 	) {}
 
-	async update(productId: number, quantity: number): Promise<WarehouseModel | null> {
-		try {
-			return await this.warehouseRepository.update(productId, quantity);
-		} catch {
-			return null;
-		}
+	async update(productId: number, quantity: IQuantity): Promise<WarehouseModel | null> {
+		return this.warehouseRepository.update(productId, quantity);
 	}
 
 	async get(productId: number): Promise<WarehouseModel | null> {
-		return await this.warehouseRepository.get(productId);
+		return this.warehouseRepository.get(productId);
 	}
 
 	async delete(productId: number): Promise<WarehouseModel | null> {
-		try {
-			return await this.warehouseRepository.delete(productId);
-		} catch {
-			return null;
-		}
+		return this.warehouseRepository.delete(productId);
 	}
 }

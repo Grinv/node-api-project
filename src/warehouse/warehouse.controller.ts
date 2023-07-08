@@ -46,10 +46,9 @@ export class WarehouseController extends BaseController implements IWarehouseCon
 	}
 
 	async update(req: Request, res: Response<void>, next: NextFunction): Promise<void> {
-		const warehouseData = await this.warehouseService.update(
-			Number(req.params.productId),
-			Number(req.body.quantity),
-		);
+		const warehouseData = await this.warehouseService.update(Number(req.params.productId), {
+			quantity: Number(req.body.quantity),
+		});
 
 		if (!warehouseData) {
 			return next(
@@ -65,9 +64,9 @@ export class WarehouseController extends BaseController implements IWarehouseCon
 
 		if (!warehouseData) {
 			return next(new HTTPError(400, 'Такого продукта не существует'));
-		} else {
-			this.ok(res, warehouseData);
 		}
+
+		this.ok(res, warehouseData);
 	}
 
 	async delete(req: Request, res: Response<void>, next: NextFunction): Promise<void> {
@@ -75,8 +74,8 @@ export class WarehouseController extends BaseController implements IWarehouseCon
 
 		if (!warehouseData) {
 			return next(new HTTPError(400, 'Такого продукта не существует'));
-		} else {
-			this.send(res, 204, null);
 		}
+
+		this.send(res, 204, null);
 	}
 }

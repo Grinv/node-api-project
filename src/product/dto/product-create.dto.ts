@@ -14,7 +14,6 @@ export class ProductCreateDto {
 	@IsString({ message: 'Неверно указано описание' })
 	description?: string;
 
-	@IsOptional()
 	@IsDecimal({}, { message: 'Неверно указана цена' })
-	price?: Decimal;
+	price: Decimal;
 }
