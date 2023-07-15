@@ -1,0 +1,8 @@
+{
+    "patch": {
+        "$ref": "./update.json"
+	},
+    "delete": {
+        "$ref": "./delete.json"
+	}
+}

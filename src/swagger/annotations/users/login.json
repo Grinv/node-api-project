@@ -1,0 +1,39 @@
+{
+	"post": {
+		"tags": [
+			"Users"
+		],
+		"summary": "Auth by email and password",
+		"description": "Return JWT token for user",
+		"requestBody": {
+			"required": true,
+			"content": {
+				"application/json": {
+					"schema": {
+						"$ref": "../schemas.json#/UserLogin"
+					}
+				}
+			}
+		},
+		"responses": {
+			"200": {
+				"description": "OK",
+				"content": {
+					"application/json": {
+						"schema": {
+							"properties": {
+								"jwt": {
+									"type": "string",
+									"format": "jwt"
+								}
+							}
+						}
+					}
+				}
+			},
+			"401": {
+				"description": "Ошибка авторизации"
+			}
+		}
+	}
+}

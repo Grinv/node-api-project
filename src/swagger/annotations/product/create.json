@@ -1,0 +1,37 @@
+{
+	"post": {
+		"tags": [
+			"Product"
+		],
+		"security": [
+			{
+				"bearerAuthAdmin": []
+			}
+		],
+		"summary": "Create product",
+		"requestBody": {
+			"required": true,
+			"content": {
+				"application/json": {
+					"schema": {
+						"$ref": "../schemas.json#/ProductCreate"
+					}
+				}
+			}
+		},
+		"responses": {
+			"201": {
+				"description": "Created",
+			},
+			"401": {
+				"description": "Вы не авторизован"
+			},
+			"402": {
+				"description": "Недостаточно прав"
+			},
+			"422": {
+				"description": "Произошла ошибка при создании продукта"
+			}
+		}
+	}
+}

@@ -1,0 +1,40 @@
+{
+	"post": {
+		"tags": [
+			"Product"
+		],
+		"security": [
+			{
+				"bearerAuth": []
+			}
+		],
+		"summary": "Find productd by parameters",
+		"requestBody": {
+			"content": {
+				"application/json": {
+					"schema": {
+						"$ref": "../schemas.json#/ProductFindReq"
+					}
+				}
+			}
+		},
+		"responses": {
+			"200": {
+				"description": "OK",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "../schemas.json#/ProductFindRes"
+						}
+					}
+				}
+			},
+			"400": {
+				"description": "Неверные параметры"
+			},
+			"401": {
+				"description": "Вы не авторизован"
+			}
+		}
+	}
+}

@@ -1,183 +1,76 @@
 {
-  "openapi": "3.0.2",
-  "info": {
-    "title": "Warehouse API Project",
-    "description": "This is a simple CRUD API application made with Express and documented with Swagger",
-    "version": "0.1.0",
-    "contact": {
-      "name": "Konstantin Ostrovskii",
-      "url": "https://github.com/Grinv",
-      "email": "grinv@outlook.com"
-    }
-  },
-  "servers": [
-    {
-      "url": "http://localhost:8000"
-    }
-  ],
-  "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    },
-    "schemas": {}
-  },
-  "tags": [
-    {
-      "name": "Users",
-      "description": "Sign in and sign up users"
-    }
-  ],
-  "paths": {
-    "/users/register": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "format": "password"
-                  },
-                  "name": {
-                    "type": "string",
-                    "format": "name",
-                    "example": "John Doe"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "username": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "id": {
-                      "type": "integer",
-                      "format": "id"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Такой пользователь уже существует"
-          }
-        }
-      }
-    },
-    "/users/login": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "format": "password"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "jwt": {
-                      "type": "string",
-                      "format": "jwt"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "ошибка авторизации"
-          }
-        }
-      }
-    },
-    "/users/info": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "username": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "id": {
-                      "type": "integer",
-                      "format": "id"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Вы не авторизован"
-          }
-        }
-      }
-    }
-  }
+	"openapi": "3.0.2",
+	"info": {
+		"title": "Warehouse API Project",
+		"description": "This is a simple CRUD API application made with Express and documented with Swagger",
+		"version": "0.1.0",
+		"contact": {
+			"name": "Konstantin Ostrovskii",
+			"url": "https://github.com/Grinv",
+			"email": "grinv@outlook.com"
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8000"
+		}
+	],
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			},
+			"bearerAuthAdmin": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+				"description": "Roles required: Admin"
+			}
+		},
+		"schemas": {
+			"$ref": "./schemas.json"
+		}
+	},
+	"tags": [
+		{
+			"name": "Users",
+			"description": "Sign in and sign up users"
+		},
+		{
+			"name": "Product",
+			"description": "CRUD Product"
+		},
+		{
+			"name": "Warehouse",
+			"description": "CRUD Warehouse"
+		}
+	],
+	"paths": {
+		"/users/register": {
+			"$ref": "./users/register.json"
+		},
+		"/users/login": {
+			"$ref": "./users/login.json"
+		},
+		"/users/info": {
+			"$ref": "./users/info.json"
+		},
+		"/users/{userId}": {
+			"$ref": "./users/index.json"
+		},
+		"/product/create": {
+			"$ref": "./product/create.json"
+		},
+		"/product/find": {
+			"$ref": "./product/find.json"
+		},
+		"/product/{productId}": {
+			"$ref": "./product/index.json"
+		},
+		"/warehouse/{productId}": {
+			"$ref": "./warehouse/index.json"
+		}
+	}
 }

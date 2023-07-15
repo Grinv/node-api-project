@@ -27,8 +27,8 @@ enum Role {
 
 model ProductModel {
     id             Int             @id @default(autoincrement())
-    colorModelId   Int
-    color          ColorModel      @relation(fields: [colorModelId], references: [id])
+    colorId        Int?
+    color          ColorModel?     @relation(fields: [colorId], references: [id])
     title          String
     description    String?
     price          Decimal?        @db.Money
@@ -39,7 +39,7 @@ model ProductModel {
 
 model ColorModel {
     id           Int            @id @default(autoincrement())
-    color        String
+    color        String         @unique
     ProductModel ProductModel[]
 }
 

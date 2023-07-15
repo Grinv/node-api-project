@@ -1,0 +1,28 @@
+{
+	"get": {
+		"tags": [
+			"Users"
+		],
+		"security": [
+			{
+				"bearerAuth": []
+			}
+		],
+		"summary": "Get info about current user",
+		"responses": {
+			"200": {
+				"description": "OK",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "../schemas.json#/UserInfoResponse"
+						}
+					}
+				}
+			},
+			"401": {
+				"description": "Вы не авторизован"
+			}
+		}
+	}
+}

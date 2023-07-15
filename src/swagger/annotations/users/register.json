@@ -1,0 +1,33 @@
+{
+	"post": {
+		"tags": [
+			"Users"
+		],
+		"summary": "Create new user",
+		"requestBody": {
+			"required": true,
+			"content": {
+				"application/json": {
+					"schema": {
+						"$ref": "../schemas.json#/UserCreate"
+					}
+				}
+			}
+		},
+		"responses": {
+			"201": {
+				"description": "OK",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "../schemas.json#/UserInfoResponse"
+						}
+					}
+				}
+			},
+			"422": {
+				"description": "Такой пользователь уже существует"
+			}
+		}
+	}
+}

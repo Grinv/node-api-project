@@ -1,0 +1,37 @@
+{
+	"tags": [
+		"Users"
+	],
+	"security": [
+		{
+			"bearerAuth": []
+		}
+	],
+	"summary": "Delete user",
+	"parameters": [
+		{
+			"name": "userId",
+			"in": "path",
+			"description": "ID of user to delete",
+			"required": true,
+			"schema": {
+				"type": "number",
+				"format": "id"
+			}
+		}
+	],
+	"responses": {
+		"204": {
+			"description": "OK"
+		},
+		"400": {
+			"description": "Такого юзера не существует"
+		},
+		"401": {
+			"description": "Вы не авторизованы"
+		},
+		"402": {
+			"description": "Недостаточно прав"
+		}
+	}
+}

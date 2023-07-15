@@ -16,6 +16,18 @@ import { UsersRepository } from './users/users.repository';
 import { IUsersRepository } from './users/types/users.repository.interface';
 import { UserService } from './users/users.service';
 import { IUserService } from './users/types/users.service.interface';
+import { ProductController } from './product/product.controller';
+import { IProductController } from './product/types/product.controller.interface';
+import { IProductService } from './product/types/product.service.interface';
+import { ProductService } from './product/product.service';
+import { IProductRepository } from './product/types/product.repository.interface';
+import { ProductRepository } from './product/product.repository';
+import { IWarehouseController } from './warehouse/types/warehouse.controller.interface';
+import { WarehouseController } from './warehouse/warehouse.controller';
+import { WarehouseService } from './warehouse/warehouse.service';
+import { IWarehouseService } from './warehouse/types/warehouse.service.interface';
+import { IWarehouseRepository } from './warehouse/types/warehouse.repository.interface';
+import { WarehouseRepository } from './warehouse/warehouse.repository';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -27,6 +39,12 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
 	bind<IUserController>(TYPES.UserController).to(UserController);
 	bind<IUserService>(TYPES.UserService).to(UserService);
+	bind<IProductController>(TYPES.ProductController).to(ProductController);
+	bind<IProductService>(TYPES.ProductService).to(ProductService);
+	bind<IProductRepository>(TYPES.ProductRepository).to(ProductRepository);
+	bind<IWarehouseController>(TYPES.WarehouseController).to(WarehouseController);
+	bind<IWarehouseService>(TYPES.WarehouseService).to(WarehouseService);
+	bind<IWarehouseRepository>(TYPES.WarehouseRepository).to(WarehouseRepository);
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();

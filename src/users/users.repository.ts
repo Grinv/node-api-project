@@ -4,6 +4,7 @@ import { PrismaService } from '../database/prisma.service';
 import { TYPES } from '../types';
 import { User } from './user.entity';
 import { IUsersRepository } from './types/users.repository.interface';
+import { UserUpdateDto } from './dto/user-update.dto';
 
 @injectable()
 export class UsersRepository implements IUsersRepository {
@@ -23,6 +24,23 @@ export class UsersRepository implements IUsersRepository {
 		return this.prismaService.client.userModel.findFirst({
 			where: {
 				email,
+			},
+		});
+	}
+
+	async update(userId: number, data: UserUpdateDto): Promise<UserModel | null> {
+		return this.prismaService.client.userModel.update({
+			where: {
+				id: userId,
+			},
+			data,
+		});
+	}
+
+	async delete(id: number): Promise<UserModel | null> {
+		return this.prismaService.client.userModel.delete({
+			where: {
+				id,
 			},
 		});
 	}
