@@ -14,6 +14,7 @@ import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { SwaggerController } from './swagger/swagger.controller';
 import generateSwaggerDocs from './swagger/utils/generateSwaggerDocs';
+import { TelegramBotService } from './bot/telegram-bot.service';
 
 @injectable()
 export class App {
@@ -30,6 +31,7 @@ export class App {
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
+		@inject(TYPES.TelegramBot) private telegramBot: TelegramBotService,
 	) {
 		this.app = express();
 		this.port = 8000;
@@ -59,6 +61,7 @@ export class App {
 		await this.useRoutes();
 		this.useExeptionFilters();
 		await this.prismaService.connect();
+		this.telegramBot.init();
 		this.server = this.app.listen(this.port);
 		this.logger.log(`Сервер запущен на http://localhost:${this.port}`);
 	}
