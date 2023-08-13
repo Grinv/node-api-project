@@ -28,6 +28,8 @@ import { WarehouseService } from './warehouse/warehouse.service';
 import { IWarehouseService } from './warehouse/types/warehouse.service.interface';
 import { IWarehouseRepository } from './warehouse/types/warehouse.repository.interface';
 import { WarehouseRepository } from './warehouse/warehouse.repository';
+import { ITelegramBotService } from './bot/telegram-bot.interface';
+import { TelegramBotService } from './bot/telegram-bot.service';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -49,6 +51,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
 	bind<ISwaggerController>(TYPES.SwaggerController).to(SwaggerController).inSingletonScope();
+	bind<ITelegramBotService>(TYPES.TelegramBot).to(TelegramBotService).inSingletonScope();
 	bind<App>(TYPES.Application).to(App);
 });
 
