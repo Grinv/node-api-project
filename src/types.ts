@@ -14,5 +14,6 @@ export const TYPES = {
 	PrismaService: Symbol.for('PrismaService'),
 	UsersRepository: Symbol.for('UsersRepository'),
 	SwaggerController: Symbol.for('SwaggerController'),
-	TelegramBot: Symbol.for('TelegramBot'),
+	Bot: Symbol.for('Bot'),
+	BotStorage: Symbol.for('BotStorage'),
 };
