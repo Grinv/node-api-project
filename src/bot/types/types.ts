@@ -8,6 +8,7 @@ export interface MySession extends Scenes.SceneSession<MySessionScene> {
 	myProp: string;
 	name: string;
 	city: string;
+	products: number[];
 }
 
 export interface MyContext extends Context {

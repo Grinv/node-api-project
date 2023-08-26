@@ -17,7 +17,7 @@ export class StartScene implements ISceneBase {
 
 	init(): void {
 		this.scene.action('products', (ctx) => {
-			ctx.reply('Cорри, братан, пока не завезли 🤷‍♂️');
+			ctx.scene.enter(SCENE.PRODUCTS);
 		});
 
 		this.scene.action('cart', (ctx) => {
@@ -34,9 +34,8 @@ export class StartScene implements ISceneBase {
 				Markup.inlineKeyboard([
 					[
 						Markup.button.callback('Покажи товары', 'products'),
-						Markup.button.callback('Покажи корзину', 'cart'),
+						Markup.button.callback('В корзину', 'cart'),
 					],
-					[Markup.button.callback('Оформить заказ', 'order')],
 				]),
 			);
 		});

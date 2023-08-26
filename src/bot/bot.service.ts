@@ -10,6 +10,8 @@ import { IntroductionScene } from './scenes/introduction';
 import { SCENE } from './constants/scene';
 import { INTRODUTION_GIF } from './constants/gif';
 import { MyContext } from './types/types';
+import { ProductsScene } from './scenes/products';
+import { IProductService } from '../product/types/product.service.interface';
 
 @injectable()
 export class BotService implements IBotService {
@@ -19,6 +21,7 @@ export class BotService implements IBotService {
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.ILogger) private loggerService: ILogger,
 		@inject(TYPES.BotStorage) private telegramBotStorage: IBotStorage,
+		@inject(TYPES.ProductService) private productService: IProductService,
 	) {
 		this.initStorage();
 		this.initStage();
@@ -33,6 +36,7 @@ export class BotService implements IBotService {
 		const scenes: Scenes.BaseScene<MyContext>[] = [
 			new StartScene().instance,
 			new IntroductionScene().instance,
+			new ProductsScene(this.productService).instance,
 		];
 
 		const stage = new Scenes.Stage<MyContext>(scenes);

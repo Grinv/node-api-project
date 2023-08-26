@@ -1,6 +1,8 @@
 export enum SCENE {
 	START = 'start',
 	INTRODUCTION = 'introduction',
-	// CART = 'cart',
-	// ORDER = 'order',
+	PRODUCTS = 'products',
+	CART = 'cart',
+	DELIVERY = 'delivery',
+	PAYMENT = 'payment',
 }
